@@ -7,6 +7,8 @@ from visitantes.forms import (
 from django.contrib import messages
 from visitantes.models import Visitante
 
+from django.utils import timezone
+
 # Create your views here.
 def registrar_visitante(request):
 
@@ -52,7 +54,12 @@ def informacoes_visitante(request, id):
         )
 
         if form.is_valid():
-            form.save()
+            visitante = form.save(commit=False)
+
+            visitante.status = "EM_VISITA"
+            visitante.horario_autorizacao = timezone.now()
+
+            visitante.save()
 
             messages.success(
                 request,
