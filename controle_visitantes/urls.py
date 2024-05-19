@@ -3,7 +3,7 @@ from django.urls import path
 
 from usuarios.views import index
 from visitantes.views import (
-    registrar_visitante, informacoes_visitante
+    registrar_visitante, informacoes_visitante, finalizar_visita
 )
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -25,4 +25,10 @@ urlpatterns = [
         informacoes_visitante,
         name="informacoes_visitante",
     ),
+
+    path(
+        "visitantes/<int:id>/finalizar-visita/",
+        finalizar_visita,
+        name="finalizar_visita",
+    )
 ]

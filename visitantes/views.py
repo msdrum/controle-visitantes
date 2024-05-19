@@ -1,6 +1,9 @@
 from django.shortcuts import (
     render, redirect, get_object_or_404
 ) 
+
+from django.http import HttpResponseNotAllowed
+
 from visitantes.forms import (
     VisitanteForm, AutorizaVisitanteForm
 )
@@ -76,3 +79,27 @@ def informacoes_visitante(request, id):
 
     return render(request, "informacoes_visitante.html", context)
 
+def finalizar_visita(request, id):
+
+    if request.method == "POST":
+        visitante = get_object_or_404(
+            Visitante,  # -> modelo do visitante
+            id=id
+        )
+
+        visitante.status = "FINALIZADO" # -> muda o status da visita para finalizado
+        visitante.horario_saida = timezone.now() # -> grava o horário exato da finalização
+
+        visitante.save()
+
+        messages.success(  # mostra a mensagem na tela do cliente
+            request,
+            "Visita finalizada com sucesso"
+        )
+
+        return redirect("index") # redireciona o usuário para a tela inicial
+    else:
+        return HttpResponseNotAllowed( # -> classe que vai bloquear o acesso por outros tipos de método
+            ["POST"], # -> lista com os métodos que SERÃO PERMITIDOS!!!
+            "Método não permitido"  # -> mensagem que será exibida, caso o usuário tente acessar a função através de um método não permitido.
+        )
