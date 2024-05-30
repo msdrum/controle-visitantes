@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 
-from usuarios.views import index
-from visitantes.views import (
+from apps.dashboard.views import index
+from apps.visitantes.views import (
     registrar_visitante, informacoes_visitante, finalizar_visita
 )
 urlpatterns = [
