@@ -41,3 +41,7 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+@login_required
+def user_logout(request):
+    return render(request, "logout.html")
