@@ -2,6 +2,7 @@ from django.shortcuts import render
 from visitantes.models import Visitante
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 # Create your views here.
 @login_required
@@ -44,4 +45,5 @@ def index(request):
 
 @login_required
 def user_logout(request):
+    logout(request)
     return render(request, "logout.html")
